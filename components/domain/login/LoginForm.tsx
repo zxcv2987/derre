@@ -1,0 +1,46 @@
+"use client";
+
+import { loginFormAction } from "@/actions/user";
+import clsx from "clsx";
+import { useActionState } from "react";
+
+export default function LoginForm() {
+  const [state, formAction, isPending] = useActionState(loginFormAction, {
+    error: undefined,
+  });
+
+  return (
+    <form
+      action={formAction}
+      className="flex flex-col justify-between w-full h-full py-10 px-6 text-zinc-400 font-bold"
+    >
+      <div className="flex flex-col gap-6">
+        <div className="flex flex-col gap-2">
+          <span>아이디</span>
+          <input
+            className="input"
+            name="id"
+            placeholder="실명을 입려해 주세요"
+          />
+          {state.error?.id && (
+            <span className="text-red-400 font-normal text-sm">
+              {state.error.id}
+            </span>
+          )}
+        </div>
+        <div className="flex flex-col gap-2">
+          <span>비밀번호</span>
+          <input className="input" name="password" placeholder="- 제외" />
+          {state.error?.password && (
+            <span className="text-red-400 font-normal text-sm">
+              {state.error.password}
+            </span>
+          )}
+        </div>
+      </div>
+      <button className={clsx("btn", isPending && "bg-zinc-200")}>
+        {isPending ? "로딩 중" : "로그인"}
+      </button>
+    </form>
+  );
+}
