@@ -30,3 +30,16 @@ export async function getBlog(): Promise<BlogListResponseType> {
   if (!res.ok) throw new Error(await res.text());
   return res.json();
 }
+
+export async function getBlogDetail(id: string): Promise<BlogResponseType> {
+  const res = await fetchClient(`/blog/${id}`, {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    cache: "force-cache",
+  });
+
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
