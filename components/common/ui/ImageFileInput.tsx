@@ -58,7 +58,7 @@ export default function ImageFileInput({
             fill
             src={imageUrl}
             alt="preview"
-            className="w-full h-32 object-cover rounded-md"
+            className="w-full h-32 object-cover rounded-md bg-white"
           />
         )}
       </label>
