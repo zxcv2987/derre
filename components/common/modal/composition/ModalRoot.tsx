@@ -32,7 +32,7 @@ function ModalRoot({
         />
         <div
           onClick={(e) => e.stopPropagation()}
-          className="relative w-full max-w-md rounded-xl bg-white shadow-lg"
+          className="relative w-xs max-w-md rounded-xl bg-white shadow-lg"
         >
           {children}
         </div>

@@ -12,7 +12,7 @@ export default function ModalAction({
   const variantStyles = {
     primary: "bg-orange-400 text-white ",
     disabled: "bg-zinc-100 text-zinc-700",
-    danger: "bg-red-400 text-white ",
+    danger: "bg-red-500 text-white ",
   };
 
   return (

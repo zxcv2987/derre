@@ -2,7 +2,7 @@
 
 import usePreventLeave from "@/utils/hooks/preventLeave/usePreventLeave";
 import { useMemo } from "react";
-import Modal from "./modal/ModalRoot";
+import Modal from "./modal/composition/ModalRoot";
 
 export default function PreventLeaveWrapper({
   children,
