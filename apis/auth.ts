@@ -1,5 +1,5 @@
 import { LoginResponseType } from "@/types/response";
-import { fetchClient } from "../fetchClient";
+import { fetchClient } from "./fetchClient";
 
 export async function login(
   email: string,

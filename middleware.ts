@@ -1,4 +1,4 @@
-import { refreshAccessToken } from "@/apis/user/auth";
+import { refreshAccessToken } from "@/apis/auth";
 import { NextRequest, NextResponse } from "next/server";
 
 const authRoutes = ["/login"];

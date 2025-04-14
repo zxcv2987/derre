@@ -1,6 +1,6 @@
 "use server";
 
-import { login, logout } from "@/apis/user/auth";
+import { login, logout } from "@/apis/auth";
 import { clearTokens, setTokens } from "@/utils/auth/auth";
 import { redirect } from "next/navigation";
 
