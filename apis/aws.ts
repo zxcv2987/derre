@@ -12,3 +12,13 @@ export async function createUploadImageUrl(
   if (!res.ok) throw new Error(await res.text());
   return res.json();
 }
+
+export async function uploadImage(uploadUrl: string, file: File) {
+  const res = await fetch(uploadUrl, {
+    method: "PUT",
+    body: file,
+  });
+
+  if (!res.ok) throw new Error(await res.text());
+  return res;
+}

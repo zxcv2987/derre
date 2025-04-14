@@ -1,6 +1,6 @@
 "use server";
 
-import { createUploadImageUrl } from "@/apis/aws";
+import { createUploadImageUrl, uploadImage } from "@/apis/aws";
 import { createPost } from "@/apis/blog";
 export async function createPostFormAction(state: unknown, formData: FormData) {
   const title = formData.get("title") as string;
@@ -35,16 +35,26 @@ export async function createPostFormAction(state: unknown, formData: FormData) {
   // 이미지 업로드 Url 생성
   // Post 생성
   try {
-    const mainImageUrl = await createUploadImageUrl(thumbnail.name);
+    const mainImagePromise = createUploadImageUrl(thumbnail.name);
+    const subImagePromise = isValidFile(subThumbnail)
+      ? createUploadImageUrl(subThumbnail.name)
+      : Promise.resolve(null);
 
-    const subImageUrl = isValidFile(subThumbnail)
-      ? await createUploadImageUrl(subThumbnail.name)
-      : null;
+    const [mainImageUpload, subImageUpload] = await Promise.all([
+      mainImagePromise,
+      subImagePromise,
+    ]);
+
+    const uploadTasks = [uploadImage(mainImageUpload.uploadURL, thumbnail)];
+    if (subImageUpload) {
+      uploadTasks.push(uploadImage(subImageUpload.uploadURL, subThumbnail));
+    }
+
     const post = await createPost({
       category: Number(category),
       title,
-      mainImage: mainImageUrl.imageURL,
-      subImage: subImageUrl?.imageURL,
+      main_image: mainImageUpload.imageURL,
+      sub_image: subImageUpload?.imageURL,
       content,
     });
 
