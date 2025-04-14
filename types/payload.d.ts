@@ -2,7 +2,7 @@ export interface BlogPayload {
   category: number;
   title: string;
   mainImage: string;
-  subImage: string;
+  subImage?: string;
   content: string;
 }
 
