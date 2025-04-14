@@ -4,5 +4,5 @@ import MainComponent from "@/components/domain/main/MainComponent";
 export default async function Home() {
   const categories = await getCategory();
   const posts = await getBlog();
-  return <MainComponent posts={posts.data} categories={categories.data} />;
+  return <MainComponent postList={posts} categories={categories.data} />;
 }
