@@ -13,12 +13,12 @@ export interface ListResponseType {
 // Blog
 export interface GeneralBlogResponseType {
   id: number;
-  createdAt: string;
-  updatedAt: string;
-  deletedAt: string;
+  created_at: string;
+  updated_at: string;
+  deleted_at: string;
   title: string;
-  mainImage: string;
-  subImage: string;
+  main_image: string;
+  sub_image: string;
   content: string;
 }
 
