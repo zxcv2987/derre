@@ -7,12 +7,12 @@ export default function Page() {
   return (
     <>
       <Header>
-        <div className="w-full flex items-center justify-center h-full">
+        <div className="w-full flex items-center justify-center h-full bg-zinc-100">
           <h1 className="logo">BLOG</h1>
         </div>
       </Header>
 
-      <article className="pt-18 flex flex-col items-center h-full w-full">
+      <article className="flex flex-col items-center h-full w-full">
         <span>{id}</span>
         <span>{pw}</span>
         <LoginForm />
