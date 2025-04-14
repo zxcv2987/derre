@@ -1,4 +1,4 @@
-import { LoginResponseType } from "@/types/response";
+import { LoginResponseType, UserResponseType } from "@/types/response";
 import { fetchClient } from "./fetchClient";
 
 export async function login(
@@ -35,6 +35,15 @@ export async function refreshAccessToken(refreshToken: string) {
 
 export async function logout() {
   const res = await fetchClient("/auth/logout", {
+    method: "GET",
+  });
+
+  if (!res.ok) throw new Error(await res.text());
+  return res.json();
+}
+
+export async function getMyInfo(): Promise<UserResponseType> {
+  const res = await fetchClient("/auth/me", {
     method: "GET",
   });
 
