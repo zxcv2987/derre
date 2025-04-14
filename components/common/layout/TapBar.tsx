@@ -34,7 +34,7 @@ export default function TabBar() {
     },
   ];
   return (
-    <div className="fixed bottom-0 h-16 flex flex-row justify-between w-full md:w-sm items-center border-t border-zinc-300">
+    <div className="fixed bottom-0 h-16 flex flex-row justify-between w-full md:w-sm items-center border-t border-zinc-300 bg-white">
       {menu.map((item) => (
         <button
           key={item.id}

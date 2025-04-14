@@ -10,9 +10,8 @@ export interface ListResponseType {
   previousPage: number;
 }
 
-export interface BlogResponseType {
-  user: UserType;
-  category: CategoryType;
+// Blog
+export interface GeneralBlogResponseType {
   id: number;
   createdAt: string;
   updatedAt: string;
@@ -23,15 +22,31 @@ export interface BlogResponseType {
   content: string;
 }
 
+export interface BlogCreateResponseType extends GeneralBlogResponseType {
+  category: CategoryType;
+}
+
+export interface BlogResponseType extends GeneralBlogResponseType {
+  category: CategoryType;
+  user: UserType;
+}
 export interface BlogListResponseType extends ListResponseType {
   data: BlogResponseType[];
 }
 
+// Auth
 export interface LoginResponseType {
   access: string;
   refresh: string;
 }
 
+// Category
 export interface CategoryListResponseType extends ListResponseType {
   data: CategoryType[];
+}
+
+// AWS
+export interface UploadImageUrlResponseType {
+  uploadURL: string;
+  imageURL: string;
 }

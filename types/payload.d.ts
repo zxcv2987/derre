@@ -1,8 +1,8 @@
 export interface BlogPayload {
   category: number;
   title: string;
-  mainImage: string;
-  subImage: string;
+  main_image: string;
+  sub_image?: string;
   content: string;
 }
 
