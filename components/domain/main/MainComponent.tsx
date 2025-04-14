@@ -1,40 +1,51 @@
+"use client";
 import { CategoryType } from "@/types/category";
-import { BlogResponseType } from "@/types/response";
-import Image from "next/image";
+import { BlogListResponseType } from "@/types/response";
+import { useState } from "react";
+import Category from "./Category";
+import BlogPostList from "./BlogPostList";
+import PostSearchBar from "./PostSearchBar";
+import PagiNation from "@/components/common/ui/PagiNation";
 
 export default function MainComponent({
-  posts,
+  postList,
   categories,
 }: {
-  posts: BlogResponseType[];
+  postList: BlogListResponseType;
   categories: CategoryType[];
 }) {
-  console.log(posts);
-  return (
-    <div>
-      {posts.map((post) => (
-        <div key={post.id}>
-          <div className="flex w-full h-32 rounded-xl overflow-hidden shadow-md bg-white">
-            {post.mainImage && (
-              <div className="relative">
-                <Image
-                  fill
-                  src={post.mainImage}
-                  alt={post.title}
-                  className="object-cover"
-                />
-              </div>
-            )}
+  const posts = postList.data;
+  const [category, setCategory] = useState<string | null>(null);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [currentPage, setCurrentPage] = useState<number>(1);
 
-            <div className="p-4 flex flex-col justify-center gap-1">
-              <h3 className="text-lg font-semibold truncate">{post.title}</h3>
-              <p className="text-sm text-gray-600 line-clamp-3">
-                {post.content}
-              </p>
-            </div>
-          </div>
-        </div>
-      ))}
+  const filteredPosts = posts.filter((post) => {
+    const matchesCategory = category ? post.category.name === category : true;
+    const matchesSearch = post.title
+      .toLowerCase()
+      .includes(searchQuery.toLowerCase());
+    return matchesCategory && matchesSearch;
+  });
+
+  return (
+    <div className="flex flex-col gap-6">
+      <Category
+        categories={categories}
+        category={category}
+        setCategory={setCategory}
+      />
+      <PostSearchBar
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+      />
+      <BlogPostList posts={filteredPosts} />
+      <PagiNation
+        currentPage={currentPage}
+        totalPages={postList.pageCnt}
+        onPageChange={(e) => {
+          setCurrentPage(e);
+        }}
+      />
     </div>
   );
 }
