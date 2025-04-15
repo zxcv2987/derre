@@ -21,7 +21,7 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${pretendard.className} antialiased`}>
         <main className="flex justify-center">
-          <div className="min-h-screen w-full md:max-w-sm py-18">
+          <div className="min-h-screen w-full md:max-w-sm pt-18">
             {children}
           </div>
         </main>

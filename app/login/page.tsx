@@ -7,7 +7,7 @@ export default function Page() {
   return (
     <>
       <Header>
-        <div className="w-full flex items-center justify-center h-full bg-zinc-100">
+        <div className="w-full flex items-center justify-center h-full">
           <h1 className="logo">BLOG</h1>
         </div>
       </Header>

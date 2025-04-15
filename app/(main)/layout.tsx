@@ -16,7 +16,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <BellIcon />
         </Link>
       </Header>
-      <div className="px-4">{children}</div>
+      <div className="px-4 pb-18">{children}</div>
       <CreatePostButton />
       <TabBar />
     </>
