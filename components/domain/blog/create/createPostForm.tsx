@@ -41,6 +41,7 @@ export default function CreatePostForm({
       formAction={formAction}
       isPending={isPending}
       error={state.error}
+      isAllowLeave={state.postId ? true : false}
     />
   );
 }

@@ -98,7 +98,7 @@ export async function updatePost(
   }
 ): Promise<BlogCreateResponseType> {
   const res = await fetchClient(`/blog/${id}`, {
-    method: "PUT",
+    method: "PATCH",
     headers: {
       "Content-Type": "application/json",
     },

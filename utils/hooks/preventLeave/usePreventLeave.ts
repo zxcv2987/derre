@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 
 export default function usePreventLeave() {
   const [openModal, setOpenModal] = useState(false);
+  const [isAllowLeave, setIsAllowLeave] = useState(false);
 
   // 뒤로가기, 새로고침, 페이지 이탈 방지
   const isFirstPopState = useRef(false);
@@ -27,17 +28,21 @@ export default function usePreventLeave() {
       return "";
     };
 
+    if (isAllowLeave) return;
     window.addEventListener("popstate", handlePopState);
     window.addEventListener("beforeunload", handleBeforeUnload);
+
     return () => {
       window.removeEventListener("popstate", handlePopState);
       window.removeEventListener("beforeunload", handleBeforeUnload);
     };
-  }, [openModal]);
+  }, [openModal, isAllowLeave]);
 
   return {
     openModal,
     setOpenModal,
     handlePopStateModalClose,
+    isAllowLeave,
+    setIsAllowLeave,
   };
 }

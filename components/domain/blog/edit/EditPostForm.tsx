@@ -36,12 +36,13 @@ export default function EditPostForm({
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [state]);
-
   return (
     <PostForm
       categories={categories}
       formAction={formAction}
       isPending={isPending}
+      error={state.error}
+      isAllowLeave={state.postId ? true : false}
       isEdit={true}
       post={post}
     />

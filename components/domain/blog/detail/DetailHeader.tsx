@@ -2,7 +2,13 @@
 
 import { useRouter } from "next/navigation";
 
-export default function DetailHeader({ title }: { title: string }) {
+export default function DetailHeader({
+  title,
+  id,
+}: {
+  title: string;
+  id: string;
+}) {
   const router = useRouter();
   return (
     <div className="flex flex-row w-full justify-between items-center">
@@ -15,7 +21,12 @@ export default function DetailHeader({ title }: { title: string }) {
         </button>
         <h1 className="font-semibold text-lg text-zinc-700">{title}</h1>
       </div>
-      <button className="cursor-pointer">수정</button>
+      <button
+        className="cursor-pointer"
+        onClick={() => router.push(`/blog/edit/${id}`)}
+      >
+        수정
+      </button>
     </div>
   );
 }
