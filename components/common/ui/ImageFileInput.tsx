@@ -7,27 +7,39 @@ export default function ImageFileInput({
   name,
   labelName,
   isRequired,
+  previewUrl,
 }: {
   name: string;
   labelName: string;
   isRequired?: boolean;
+  previewUrl?: string;
 }) {
-  const [imageUrl, setImageUrl] = useState<string | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(previewUrl || null);
+  const [isChanged, setIsChanged] = useState<boolean>(false);
 
   const reset = () => {
-    setImageUrl(null);
+    setImageUrl(previewUrl || null);
+    setIsChanged(false);
   };
+
   useEffect(() => {
     return () => {
-      if (imageUrl) {
+      if (imageUrl && isChanged) {
         URL.revokeObjectURL(imageUrl);
       }
       removeEventListener("reset", reset);
     };
-  }, [imageUrl]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [imageUrl, isChanged, previewUrl]);
+
+  useEffect(() => {
+    if (previewUrl && !isChanged) {
+      setImageUrl(previewUrl);
+    }
+  }, [previewUrl, isChanged]);
 
   return (
-    <div className="flex flex-col gap-2 justify-center items-center w-full ">
+    <div className="flex flex-col gap-2 justify-center items-center w-full">
       <input
         id={name}
         name={name}
@@ -37,10 +49,15 @@ export default function ImageFileInput({
         onChange={(e) => {
           const file = e.target.files?.[0];
           if (file) {
+            if (imageUrl && isChanged) {
+              URL.revokeObjectURL(imageUrl);
+            }
             const url = URL.createObjectURL(file);
             setImageUrl(url);
+            setIsChanged(true);
           } else {
-            setImageUrl(null);
+            setImageUrl(previewUrl || null);
+            setIsChanged(false);
           }
         }}
         ref={(input) => {
@@ -50,16 +67,17 @@ export default function ImageFileInput({
 
       <label
         htmlFor={name}
-        className=" relative cursor-pointer w-full h-32 bg-zinc-100 rounded-md flex items-center justify-center"
+        className="relative cursor-pointer w-full h-32 bg-zinc-100 rounded-md flex items-center justify-center overflow-hidden"
       >
-        <div className="text-3xl font-bold text-zinc-400">+</div>
-        {imageUrl && (
+        {imageUrl ? (
           <Image
             fill
             src={imageUrl}
             alt="preview"
             className="w-full h-32 object-cover rounded-md bg-white"
           />
+        ) : (
+          <div className="text-3xl font-bold text-zinc-400">+</div>
         )}
       </label>
 
