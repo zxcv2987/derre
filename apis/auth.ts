@@ -45,6 +45,10 @@ export async function logout() {
 export async function getMyInfo(): Promise<UserResponseType> {
   const res = await fetchClient("/auth/me", {
     method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    cache: "force-cache",
   });
 
   if (!res.ok) throw new Error(await res.text());

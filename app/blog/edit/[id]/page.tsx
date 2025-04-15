@@ -7,7 +7,7 @@ export default async function Page({
 }: {
   params: Promise<{ id: string }>;
 }) {
-  const categories = (await getCategory()).data;
+  const categories = await getCategory();
   const post = await getBlogDetail((await params).id);
-  return <EditPostForm categories={categories} post={post} />;
+  return <EditPostForm categories={categories.data} post={post} />;
 }
