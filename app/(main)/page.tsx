@@ -2,9 +2,11 @@ import { getMyInfo } from "@/apis/auth";
 import { getBlog } from "@/apis/blog";
 import { getCategory } from "@/apis/category";
 import MainComponent from "@/components/domain/main/MainComponent";
-import { Suspense } from "react";
-import { QueryClient, dehydrate } from "@tanstack/react-query";
-import { QueryProvider } from "@/providers/QueryProvider";
+import {
+  HydrationBoundary,
+  QueryClient,
+  dehydrate,
+} from "@tanstack/react-query";
 
 export default async function Home() {
   const categories = await getCategory();
@@ -21,14 +23,12 @@ export default async function Home() {
   const dehydratedState = dehydrate(queryClient);
 
   return (
-    <Suspense fallback={<div>로딩 중...</div>}>
-      <QueryProvider dehydratedState={dehydratedState}>
-        <MainComponent
-          postList={posts}
-          categories={categories.data}
-          user={user}
-        />
-      </QueryProvider>
-    </Suspense>
+    <HydrationBoundary state={dehydratedState}>
+      <MainComponent
+        postList={posts}
+        categories={categories.data}
+        user={user}
+      />
+    </HydrationBoundary>
   );
 }

@@ -4,7 +4,6 @@ import Content from "@/components/common/ui/Content";
 import DetailHeader from "@/components/domain/blog/detail/DetailHeader";
 import { formatDate } from "@/utils/format/formatDate";
 import Image from "next/image";
-import { Suspense } from "react";
 
 export default async function Page({
   params,
@@ -15,7 +14,7 @@ export default async function Page({
 
   const post = await getBlogDetail(id);
   return (
-    <Suspense fallback={<div>로딩 중...</div>}>
+    <div>
       <Header>
         <DetailHeader title={post.title} />
       </Header>
@@ -47,6 +46,6 @@ export default async function Page({
           <Content content={post.content} />
         </article>
       </div>
-    </Suspense>
+    </div>
   );
 }

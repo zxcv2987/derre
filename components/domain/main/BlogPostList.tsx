@@ -1,7 +1,7 @@
 import Link from "next/link";
 import Image from "next/image";
 import { BlogResponseType, UserResponseType } from "@/types/response";
-import PostActionButton from "./PostActionButton";
+import PostActionButton from "@/components/domain/main/PostActionButton";
 
 export default function BlogPostList({
   posts,

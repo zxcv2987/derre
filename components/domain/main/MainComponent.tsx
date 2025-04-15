@@ -3,9 +3,9 @@ import { CategoryType } from "@/types/category";
 import { BlogListResponseType, UserResponseType } from "@/types/response";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
-import Category from "./Category";
-import BlogPostList from "./BlogPostList";
-import PostSearchBar from "./PostSearchBar";
+import Category from "@/components/domain/main/Category";
+import BlogPostList from "@/components/domain/main/BlogPostList";
+import PostSearchBar from "@/components/domain/main/PostSearchBar";
 import PagiNation from "@/components/common/ui/PagiNation";
 import { getBlog } from "@/apis/blog";
 
