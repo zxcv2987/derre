@@ -1,6 +1,6 @@
 "use client";
 import { CategoryType } from "@/types/category";
-import { BlogListResponseType } from "@/types/response";
+import { BlogListResponseType, UserResponseType } from "@/types/response";
 import { useState } from "react";
 import Category from "./Category";
 import BlogPostList from "./BlogPostList";
@@ -10,9 +10,11 @@ import PagiNation from "@/components/common/ui/PagiNation";
 export default function MainComponent({
   postList,
   categories,
+  user,
 }: {
   postList: BlogListResponseType;
   categories: CategoryType[];
+  user: UserResponseType;
 }) {
   const posts = postList.data;
   const [category, setCategory] = useState<string | null>(null);
@@ -38,7 +40,7 @@ export default function MainComponent({
         searchQuery={searchQuery}
         setSearchQuery={setSearchQuery}
       />
-      <BlogPostList posts={filteredPosts} />
+      <BlogPostList posts={filteredPosts} user={user} />
       <PagiNation
         currentPage={currentPage}
         totalPages={postList.pageCnt}
