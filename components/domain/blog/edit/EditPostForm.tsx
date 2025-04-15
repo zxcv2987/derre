@@ -1,19 +1,21 @@
 "use client";
 
-import { createPostFormAction } from "@/actions/blog";
-
+import { editPostFormAction } from "@/actions/blog";
 import { CategoryType } from "@/types/category";
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";
 import PostForm from "../PostForm";
+import { BlogResponseType } from "@/types/response";
 
-export default function CreatePostForm({
+export default function EditPostForm({
+  post,
   categories,
 }: {
+  post: BlogResponseType;
   categories: CategoryType[];
 }) {
   const router = useRouter();
-  const [state, formAction, isPending] = useActionState(createPostFormAction, {
+  const [state, formAction, isPending] = useActionState(editPostFormAction, {
     postId: undefined,
     error: undefined,
   });
@@ -40,7 +42,8 @@ export default function CreatePostForm({
       categories={categories}
       formAction={formAction}
       isPending={isPending}
-      error={state.error}
+      isEdit={true}
+      post={post}
     />
   );
 }
