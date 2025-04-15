@@ -1,3 +1,5 @@
+"use server";
+
 import { BlogPayload } from "@/types/payload";
 import { fetchClient } from "./fetchClient";
 import {
@@ -5,6 +7,7 @@ import {
   BlogListResponseType,
   BlogResponseType,
 } from "@/types/response";
+import { revalidateTag } from "next/cache";
 
 export async function createPost(
   payload: BlogPayload
@@ -14,10 +17,11 @@ export async function createPost(
     headers: {
       "Content-Type": "application/json",
     },
+    next: { tags: ["blog"] },
     body: JSON.stringify(payload),
   });
 
-  console.log("api res:", res);
+  revalidateTag("blog");
   if (!res.ok) throw new Error(await res.text());
   return res.json();
 }
@@ -28,6 +32,7 @@ export async function getBlog(): Promise<BlogListResponseType> {
     headers: {
       "Content-Type": "application/json",
     },
+    next: { tags: ["blog"] },
     cache: "force-cache",
   });
 
@@ -41,6 +46,7 @@ export async function getBlogDetail(id: string): Promise<BlogResponseType> {
     headers: {
       "Content-Type": "application/json",
     },
+    next: { tags: ["blog"] },
     cache: "force-cache",
   });
 
@@ -56,6 +62,7 @@ export async function deletePost(id: string): Promise<void> {
     },
   });
 
+  revalidateTag("blog");
   if (!res.ok) throw new Error(await res.text());
 }
 
@@ -76,7 +83,7 @@ export async function updatePost(
     },
     body: JSON.stringify(payload),
   });
-
+  revalidateTag("blog");
   if (!res.ok) throw new Error(await res.text());
   return res.json();
 }
