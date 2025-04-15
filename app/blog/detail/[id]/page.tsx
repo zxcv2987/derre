@@ -16,7 +16,7 @@ export default async function Page({
   return (
     <div>
       <Header>
-        <DetailHeader title={post.title} />
+        <DetailHeader title={post.title} id={id} />
       </Header>
       <div className="px-4 flex gap-4 flex-col">
         {post.main_image && (
