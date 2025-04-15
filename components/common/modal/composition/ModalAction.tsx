@@ -9,19 +9,14 @@ export default function ModalAction({
   variant?: "primary" | "disabled" | "danger";
   children: React.ReactNode;
 }) {
-  const variantStyles = {
-    primary: "bg-orange-400 text-white ",
-    disabled: "bg-zinc-100 text-zinc-700",
-    danger: "bg-red-500 text-white ",
-  };
-
   return (
     <button
       onClick={onClick}
-      className={clsx([
-        "px-4 py-2 rounded-lg transition-colors",
-        variantStyles[variant],
-      ])}
+      className={clsx("px-4 py-2 rounded-lg transition-colors", {
+        "bg-orange-400 text-white hover:bg-orange-500": variant === "primary",
+        "bg-zinc-100 text-zinc-700 hover:bg-zinc-200": variant === "disabled",
+        "bg-red-500 text-white hover:bg-red-600": variant === "danger",
+      })}
     >
       {children}
     </button>
