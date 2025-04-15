@@ -4,7 +4,7 @@ import { editPostFormAction } from "@/actions/blog";
 import { CategoryType } from "@/types/category";
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";
-import PostForm from "../PostForm";
+import PostForm from "@/components/domain/blog/PostForm";
 import { BlogResponseType } from "@/types/response";
 
 export default function EditPostForm({

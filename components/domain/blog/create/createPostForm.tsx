@@ -5,7 +5,7 @@ import { createPostFormAction } from "@/actions/blog";
 import { CategoryType } from "@/types/category";
 import { useRouter } from "next/navigation";
 import { useActionState, useEffect } from "react";
-import PostForm from "../PostForm";
+import PostForm from "@/components/domain/blog/PostForm";
 
 export default function CreatePostForm({
   categories,
