@@ -9,6 +9,7 @@ import { useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import clsx from "clsx";
 import PreventLeaveWrapper from "@/components/common/preventLeaveWrapper";
+import Modal from "@/components/common/modal/composition/ModalRoot";
 
 interface FormError {
   toast?: string;
@@ -26,6 +27,7 @@ interface PostFormProps {
   post?: BlogResponseType;
   isEdit?: boolean;
   isPending?: boolean;
+  isAllowLeave?: boolean;
 }
 
 export default function PostForm({
@@ -35,6 +37,7 @@ export default function PostForm({
   post,
   isEdit = false,
   isPending = false,
+  isAllowLeave = false,
 }: PostFormProps) {
   useEffect(() => {
     if (error?.toast) {
@@ -43,7 +46,13 @@ export default function PostForm({
   }, [error]);
 
   return (
-    <PreventLeaveWrapper>
+    <PreventLeaveWrapper isSuccess={isAllowLeave}>
+      <Modal.Root isOpen={isPending} onClose={() => {}}>
+        <Modal.Content>
+          <div className="w-full flex justify-center">로딩중...</div>
+        </Modal.Content>
+      </Modal.Root>
+
       <form action={formAction} className="flex flex-col gap-6">
         {isEdit && post?.id && (
           <input type="hidden" name="postId" value={post.id} />
