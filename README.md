@@ -7,7 +7,7 @@ Dev Record - 줄여서 데레 입니다.
 
 ## 실행 및 접속 방법
 Vecel의 배포 자동화를 이용했습니다. 밑의 링크로 바로 접속 가능합니다. <br/>
-- 아직 배포 X<br/>
+- 배포 O<br/>
 
 [Derre 접속 링크](http://derre.vercel.app/)
 
