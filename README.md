@@ -49,10 +49,12 @@ Composition 패턴/Create Portal을  활용한 공통 모달
 폼 작성 중 이탈 시도 시 모달을 띄우는 기능을 구현함.
 popState는 실행 후에 이벤트를 발동할 수 있기에 history에 같은 url을 하나 더 쌓아놓고 popState 발동 시 모달을 띄우는 방식으로 이탈을 막았음.
 폼 작성 완료 시 replace하여 blog 상세로 가야하는데, history에 같은 url이 두 개가 있어서 replace해도 뒤로가기를 하면 create페이지로 이동함.
+
 [과정]
 1.cloneElement로 wrapper에서 prop으로 children에게 allow 변경 함수를 전달.
 폼 작성 성공 시 allow를 변경하여 evnetListner를 무효화 시키고자 하였으나 이미 histroy는 쌓여있어서 실패.
 2.비동기 처리로 router.back을 감싸서 router.back 실행 후 replace하는 방식 시도. 하지만 브라우저 api 설계 상 뒤로가기가 끝나기 전에 replace가 선입력되어 무용지물.
+
 [해결]
 popStateEventListener를 활용.
 popStateEvent에 router.replace를 걸어두고 router.back으로 history를 하나 지우면서 이벤트 리스너를 통해 replace 발동시켜 해결함.
