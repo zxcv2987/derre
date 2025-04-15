@@ -2,7 +2,6 @@
 
 import { createUploadImageUrl, uploadImage } from "@/apis/aws";
 import { createPost, deletePost, updatePost } from "@/apis/blog";
-import { redirect } from "next/navigation";
 
 // 공통 타입 정의
 interface FormError {
@@ -201,5 +200,4 @@ export async function deletePostAction(postId: string) {
     console.error("게시글 삭제 오류:", e);
     return { error: { toast: "게시글 삭제 중 오류가 발생하였습니다." } };
   }
-  redirect("/");
 }

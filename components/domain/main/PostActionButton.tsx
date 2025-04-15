@@ -5,6 +5,7 @@ import { MoreIcon } from "@/assets/icons";
 import Modal from "@/components/common/modal/composition/ModalRoot";
 import { BlogResponseType } from "@/types/response";
 import useModal from "@/utils/hooks/useModal";
+import { useQueryClient } from "@tanstack/react-query";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -12,6 +13,7 @@ export default function PostActionButton({ post }: { post: BlogResponseType }) {
   const { isOpen, open, close, modalRef } = useModal();
   const [confrimOpen, setConfrimOpen] = useState(false);
   const router = useRouter();
+  const queryClient = useQueryClient();
 
   const handleEdit = (e: React.MouseEvent) => {
     e.stopPropagation();
@@ -52,6 +54,10 @@ export default function PostActionButton({ post }: { post: BlogResponseType }) {
                 await deletePostAction(post.id.toString());
                 setConfrimOpen(false);
                 close();
+                queryClient.invalidateQueries({
+                  queryKey: ["posts"],
+                });
+                router.refresh();
               }}
               variant="danger"
             >
