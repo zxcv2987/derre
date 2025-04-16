@@ -41,16 +41,13 @@ export async function getBlog(params?: {
     title = "",
   } = params || {};
 
-  const urlParams = new URLSearchParams();
+  let queryString = `page=${page}&page_size=${pageSize}`;
+  if (categoryId !== null) queryString += `&category_id=${categoryId}`;
+  if (categoryName)
+    queryString += `&category_name=${encodeURIComponent(categoryName)}`;
+  if (title) queryString += `&title=${encodeURIComponent(title)}`;
 
-  urlParams.set("page", String(page));
-  urlParams.set("page_size", String(pageSize));
-
-  if (categoryId !== null) urlParams.set("category_id", String(categoryId));
-  if (categoryName) urlParams.set("category_name", categoryName);
-  if (title) urlParams.set("title", title);
-
-  const response = await fetchClient(`/blog?${urlParams.toString()}`, {
+  const response = await fetchClient(`/blog?${queryString}`, {
     next: { tags: ["blog"] },
   });
 

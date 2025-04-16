@@ -1,6 +1,6 @@
 "use client";
 import { CategoryType } from "@/types/category";
-import { BlogListResponseType, UserResponseType } from "@/types/response";
+import { UserResponseType } from "@/types/response";
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Category from "@/components/domain/main/Category";
@@ -9,48 +9,31 @@ import PostSearchBar from "@/components/domain/main/PostSearchBar";
 import PagiNation from "@/components/common/ui/PagiNation";
 import { getBlog } from "@/apis/blog";
 
-const getPostsQueryKey = (params: {
-  page: number;
-  pageSize: number;
-  category: string | null;
-  title: string;
-}) => ["posts", params.page, params.pageSize, params.category, params.title];
-
 export default function MainComponent({
-  postList,
   categories,
   user,
 }: {
-  postList: BlogListResponseType;
   categories: CategoryType[];
   user: UserResponseType;
 }) {
-  const [currentPage, setCurrentPage] = useState<number>(postList.curPage);
+  const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageSize] = useState<number>(10);
-  const [category, setCategory] = useState<string | null>(null);
+  const [categoryName, setCategory] = useState<string | null>(null);
   const [searchQuery, setSearchQuery] = useState<string>("");
 
-  const queryParams = {
-    page: currentPage,
-    pageSize,
-    category,
-    title: searchQuery,
-  };
-
-  const queryKey = getPostsQueryKey(queryParams);
+  const queryKey = ["posts", currentPage, pageSize, categoryName, searchQuery];
 
   const { data, isLoading, isFetching } = useQuery({
     queryKey,
-    queryFn: () =>
-      getBlog({
+    queryFn: () => {
+      return getBlog({
         page: currentPage,
         pageSize,
-        categoryName: category,
+        categoryName: categoryName,
         title: searchQuery,
-      }),
-    initialData: postList,
+      });
+    },
   });
-
   return (
     <div className="flex flex-col gap-6">
       {isFetching && (
@@ -58,8 +41,9 @@ export default function MainComponent({
       )}
 
       <Category
+        isFetching={isFetching}
         categories={categories}
-        category={category}
+        category={categoryName}
         setCategory={(newCategory: string | null) => {
           setCategory(newCategory);
           setCurrentPage(1);

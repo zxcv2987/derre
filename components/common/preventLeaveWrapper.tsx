@@ -27,9 +27,7 @@ export default function PreventLeaveWrapper({
           <Modal.Action onClick={handlePopStateModalClose} variant="primary">
             계속하기
           </Modal.Action>
-          <Modal.Action onClick={() => router.back()} variant="danger">
-            나가기
-          </Modal.Action>
+          <Modal.Action onClick={() => router.back()}>나가기</Modal.Action>
         </Modal.ActionsContainer>
       </Modal.Root>
       {children}

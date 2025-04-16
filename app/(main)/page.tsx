@@ -2,33 +2,26 @@ import { getMyInfo } from "@/apis/auth";
 import { getBlog } from "@/apis/blog";
 import { getCategory } from "@/apis/category";
 import MainComponent from "@/components/domain/main/MainComponent";
-import {
-  HydrationBoundary,
-  QueryClient,
-  dehydrate,
-} from "@tanstack/react-query";
+import { getQueryClient } from "@/utils/lib/tnastack-query/getQueryClient";
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 
 export default async function Home() {
   const categories = await getCategory();
   const user = await getMyInfo();
-  const posts = await getBlog();
 
-  const queryClient = new QueryClient();
+  const queryClient = getQueryClient();
 
-  queryClient.setQueryData(["posts"], {
-    page: 1,
-    page_size: 10,
-    title: "",
+  await queryClient.prefetchQuery({
+    queryKey: ["posts", 1, 10, null, ""],
+    queryFn: () => {
+      return getBlog({ page: 1, pageSize: 10, categoryName: null, title: "" });
+    },
   });
-  const dehydratedState = dehydrate(queryClient);
 
+  const dehydratedState = dehydrate(queryClient);
   return (
     <HydrationBoundary state={dehydratedState}>
-      <MainComponent
-        postList={posts}
-        categories={categories.data}
-        user={user}
-      />
+      <MainComponent categories={categories.data} user={user} />
     </HydrationBoundary>
   );
 }
