@@ -1,17 +1,20 @@
-import { CategoryType } from "@/types/category";
+import { getCategory } from "@/apis/category";
+import { useQuery } from "@tanstack/react-query";
 import clsx from "clsx";
 
 export default function Category({
-  categories,
   category,
   setCategory,
   isFetching,
 }: {
-  categories: CategoryType[];
   category: string | null;
   setCategory: (category: string | null) => void;
   isFetching: boolean;
 }) {
+  const { data: categories } = useQuery({
+    queryKey: ["categories"],
+    queryFn: () => getCategory(),
+  });
   return (
     <div className="flex gap-1 text-sm text-zinc-600 font-semibold whitespace-nowrap">
       <button
@@ -26,7 +29,7 @@ export default function Category({
       >
         전체
       </button>
-      {categories.map((cat) => (
+      {categories?.data.map((cat) => (
         <button
           disabled={isFetching}
           key={cat.id}

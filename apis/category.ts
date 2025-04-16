@@ -1,3 +1,4 @@
+"use server";
 import { CategoryListResponseType } from "@/types/response";
 import { fetchClient } from "./fetchClient";
 

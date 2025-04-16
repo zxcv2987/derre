@@ -1,6 +1,5 @@
 "use client";
-import { CategoryType } from "@/types/category";
-import { UserResponseType } from "@/types/response";
+
 import { useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import Category from "@/components/domain/main/Category";
@@ -9,13 +8,7 @@ import PostSearchBar from "@/components/domain/main/PostSearchBar";
 import PagiNation from "@/components/common/ui/PagiNation";
 import { getBlog } from "@/apis/blog";
 
-export default function MainComponent({
-  categories,
-  user,
-}: {
-  categories: CategoryType[];
-  user: UserResponseType;
-}) {
+export default function MainComponent() {
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [pageSize] = useState<number>(10);
   const [categoryName, setCategory] = useState<string | null>(null);
@@ -42,7 +35,6 @@ export default function MainComponent({
 
       <Category
         isFetching={isFetching}
-        categories={categories}
         category={categoryName}
         setCategory={(newCategory: string | null) => {
           setCategory(newCategory);
@@ -68,7 +60,7 @@ export default function MainComponent({
           검색 결과가 없습니다.
         </div>
       ) : (
-        <BlogPostList posts={data?.data || []} user={user} />
+        <BlogPostList posts={data?.data || []} />
       )}
 
       <PagiNation
