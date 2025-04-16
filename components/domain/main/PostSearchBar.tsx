@@ -1,4 +1,3 @@
-import { useQueryClient } from "@tanstack/react-query";
 import { useState, FormEvent } from "react";
 
 export default function PostSearchBar({
@@ -10,18 +9,16 @@ export default function PostSearchBar({
   setSearchQuery: (query: string) => void;
   isPending: boolean;
 }) {
-  const queryClient = useQueryClient();
   const [inputValue, setInputValue] = useState(searchQuery);
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
-    queryClient.invalidateQueries({ queryKey: ["posts"] });
-    setSearchQuery(inputValue); // 폼 제출 시에만 검색 실행
+    setSearchQuery(inputValue);
   };
 
   const handleClear = () => {
     setInputValue("");
-    setSearchQuery(""); // 초기화 시에도 검색 실행
+    setSearchQuery("");
   };
 
   return (
