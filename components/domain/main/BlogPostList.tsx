@@ -1,15 +1,15 @@
 import Link from "next/link";
 import Image from "next/image";
-import { BlogResponseType, UserResponseType } from "@/types/response";
+import { BlogResponseType } from "@/types/response";
 import PostActionButton from "@/components/domain/main/PostActionButton";
+import { useQuery } from "@tanstack/react-query";
+import { getMyInfo } from "@/apis/auth";
 
-export default function BlogPostList({
-  posts,
-  user,
-}: {
-  posts: BlogResponseType[];
-  user: UserResponseType;
-}) {
+export default function BlogPostList({ posts }: { posts: BlogResponseType[] }) {
+  const { data: user } = useQuery({
+    queryKey: ["user"],
+    queryFn: () => getMyInfo(),
+  });
   return (
     <>
       {posts.map((post) => (
@@ -33,7 +33,7 @@ export default function BlogPostList({
               <h2 className="text-lg font-bold text-zinc-700 truncate">
                 {post.title}
               </h2>
-              {post.user.email === user.email && (
+              {post.user.email === user?.email && (
                 <PostActionButton post={post} />
               )}
             </div>

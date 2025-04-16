@@ -43,9 +43,8 @@ export async function getBlog(params?: {
 
   let queryString = `page=${page}&page_size=${pageSize}`;
   if (categoryId !== null) queryString += `&category_id=${categoryId}`;
-  if (categoryName)
-    queryString += `&category_name=${encodeURIComponent(categoryName)}`;
-  if (title) queryString += `&title=${encodeURIComponent(title)}`;
+  if (categoryName) queryString += `&category_name=${categoryName}`;
+  if (title) queryString += `&title=${title}`;
 
   const response = await fetchClient(`/blog?${queryString}`, {
     next: { tags: ["blog"] },

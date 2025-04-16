@@ -1,3 +1,4 @@
+"use server";
 import { LoginResponseType, UserResponseType } from "@/types/response";
 import { fetchClient } from "./fetchClient";
 

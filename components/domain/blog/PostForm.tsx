@@ -5,12 +5,12 @@ import ImageFileInput from "@/components/common/ui/ImageFileInput";
 import DropDown from "@/components/common/ui/DropDown";
 import { CategoryType } from "@/types/category";
 import { BlogResponseType } from "@/types/response";
-import { useEffect } from "react";
+import { startTransition, useEffect } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import clsx from "clsx";
 import PreventLeaveWrapper from "@/components/common/preventLeaveWrapper";
 import Modal from "@/components/common/modal/composition/ModalRoot";
-
+import { useRouter } from "next/navigation";
 interface FormError {
   toast?: string;
   title?: string;
@@ -39,12 +39,24 @@ export default function PostForm({
   isPending = false,
   isAllowLeave = false,
 }: PostFormProps) {
+  const router = useRouter();
   useEffect(() => {
     if (error?.toast) {
       toast(error.toast);
     }
   }, [error]);
 
+  useEffect(() => {
+    if (isAllowLeave) {
+      startTransition(() => {
+        const currentPosition = window.history.state?.idx || 0;
+
+        window.history.replaceState({ idx: currentPosition - 2 }, "", "/");
+
+        router.replace("/");
+      });
+    }
+  }, [isAllowLeave, router]);
   return (
     <PreventLeaveWrapper isSuccess={isAllowLeave}>
       <Modal.Root isOpen={isPending} onClose={() => {}}>
