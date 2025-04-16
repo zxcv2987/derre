@@ -14,24 +14,24 @@ Vecel의 배포 자동화를 이용했습니다. 밑의 링크로 바로 접속 
 <br/>
 
 ## 구현한 기능 목록
-1. 로그인
+1. 로그인<br/>
 Next.js 미들웨어를 사용한 토큰 검증(access, refesh)
 
-3. 블로그 목록 조회
+2. 블로그 목록 조회<br/>
 tanstack-query를 사용한 클라이언트단 데이터 fetch
 카테고리, 검색어 별 필터링 기능
 페이지네이션
 SSR fetching data dehydrate 처리
 useQuery 캐싱 기능으로 propDriling 최소화
 
-5. 블로그 글 생성/수정
+3. 블로그 글 생성/수정<br/>
 Form, FormAction 공통 모듈화
 뒤로가기, 페이지 이탈, router 사용 감지 후 컨펌창 출력
 작성/수정 후 페이지 히스토리 삭제
 
-6. 블로그 상세화면 조회
+4. 블로그 상세화면 조회<br/>
 
-7. 공통
+5. 공통<br/>
 Composition 패턴/Create Portal을  활용한 공통 모달
 전체 화면 모달이 아닌 miniModal을 위한 useModal 커스텀 훅
 
@@ -48,23 +48,23 @@ Composition 패턴/Create Portal을  활용한 공통 모달
 
 ## 개발하면서 고려한 부분 혹은 어려웠던 점
 ### 기록해놓은 트러블 슈팅
-[문제]
+[문제]<br/>
 폼 작성 중 이탈 시도 시 모달을 띄우는 기능을 구현함.
 popState는 실행 후에 이벤트를 발동할 수 있기에 history에 같은 url을 하나 더 쌓아놓고 popState 발동 시 모달을 띄우는 방식으로 이탈을 막았음.
 폼 작성 완료 시 replace하여 blog 상세로 가야하는데, history에 같은 url이 두 개가 있어서 replace해도 뒤로가기를 하면 create페이지로 이동함.
 
-[과정]
+[과정]<br/>
 1.cloneElement로 wrapper에서 prop으로 children에게 allow 변경 함수를 전달.
 폼 작성 성공 시 allow를 변경하여 evnetListner를 무효화 시키고자 하였으나 이미 histroy는 쌓여있어서 실패.
 2.비동기 처리로 router.back을 감싸서 router.back 실행 후 replace하는 방식 시도. 하지만 브라우저 api 설계 상 뒤로가기가 끝나기 전에 replace가 선입력되어 무용지물.
 
-[해결]
+[해결]<br/>
 popStateEventListener를 활용.
 popStateEvent에 router.replace를 걸어두고 router.back으로 history를 하나 지우면서 이벤트 리스너를 통해 replace 발동시켜 해결함.<br/>
 
 [개선]<br/>
 두 번의 이벤트 발생을 사용자에게 드러내는 것이 UX적인 면에서 좋지 않다고 느낌.<br/>
-useTransition + history.replaceState 활용
+useTransition 활용
 
 ### 배우거나 생각하게 된 것들
 캐싱에 대한 것.
