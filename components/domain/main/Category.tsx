@@ -1,33 +1,34 @@
 import { CategoryType } from "@/types/category";
-import { useQueryClient } from "@tanstack/react-query";
 import clsx from "clsx";
 
 export default function Category({
   categories,
   category,
   setCategory,
+  isFetching,
 }: {
   categories: CategoryType[];
   category: string | null;
   setCategory: (category: string | null) => void;
+  isFetching: boolean;
 }) {
-  const queryClient = useQueryClient();
   return (
     <div className="flex gap-1 text-sm text-zinc-600 font-semibold whitespace-nowrap">
       <button
+        disabled={isFetching}
         className={clsx(
           "px-2 py-3 cursor-pointer border-b-4 transition-all duration-100",
           category === null ? "border-orange-400" : "border-transparent"
         )}
         onClick={() => {
           setCategory(null);
-          queryClient.invalidateQueries({ queryKey: ["posts"] });
         }}
       >
         전체
       </button>
       {categories.map((cat) => (
         <button
+          disabled={isFetching}
           key={cat.id}
           className={clsx(
             "px-2 py-3 cursor-pointer border-b-4 transition-all duration-100",
@@ -35,7 +36,6 @@ export default function Category({
           )}
           onClick={() => {
             setCategory(cat.name);
-            queryClient.invalidateQueries({ queryKey: ["posts"] });
           }}
         >
           {cat.name}

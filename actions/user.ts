@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 
 export async function loginFormAction(
   state: {
+    ok: boolean;
     error?: undefined | { id?: string; password?: string };
   },
   formData: FormData
@@ -15,22 +16,36 @@ export async function loginFormAction(
 
   if (!id && !password)
     return {
+      ok: false,
       error: {
         id: "아이디를 입력해 주세요",
         password: "비밀번호를 입력해 주시오",
       },
     };
-  if (!id) return { error: { id: "아이디를 입력해 주세요" } };
-  if (!password) return { error: { password: "비밀번호를 입력해 주시오" } };
+  if (!id)
+    return {
+      ok: false,
+      error: { id: "아이디를 입력해 주세요" },
+    };
+  if (!password)
+    return {
+      ok: false,
+      error: { password: "비밀번호를 입력해 주시오" },
+    };
 
   try {
     const res = await login(id, password);
     await setTokens(res.access, res.refresh);
+    return {
+      ok: true,
+    };
   } catch (e) {
     console.log(e);
-    return {};
+    return {
+      ok: false,
+      error: { id: "아이디 또는 비밀번호가 일치하지 않습니다." },
+    };
   }
-  redirect("/");
 }
 
 export async function logoutAction() {
