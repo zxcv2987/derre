@@ -21,16 +21,17 @@ Next.js 미들웨어를 사용한 토큰 검증(access, refesh)
 tanstack-query를 사용한 클라이언트단 데이터 fetch
 카테고리, 검색어 별 필터링 기능
 페이지네이션
-SSR fetching data dehydrate 처리(시도)
+SSR fetching data dehydrate 처리
+useQuery 캐싱 기능으로 propDriling 최소화
 
-4. 블로그 글 생성/수정
+5. 블로그 글 생성/수정
 Form, FormAction 공통 모듈화
 뒤로가기, 페이지 이탈, router 사용 감지 후 컨펌창 출력
 작성/수정 후 페이지 히스토리 삭제
 
-5. 블로그 상세화면 조회
+6. 블로그 상세화면 조회
 
-6. 공통
+7. 공통
 Composition 패턴/Create Portal을  활용한 공통 모달
 전체 화면 모달이 아닌 miniModal을 위한 useModal 커스텀 훅
 
@@ -59,9 +60,14 @@ popState는 실행 후에 이벤트를 발동할 수 있기에 history에 같은
 
 [해결]
 popStateEventListener를 활용.
-popStateEvent에 router.replace를 걸어두고 router.back으로 history를 하나 지우면서 이벤트 리스너를 통해 replace 발동시켜 해결함.
+popStateEvent에 router.replace를 걸어두고 router.back으로 history를 하나 지우면서 이벤트 리스너를 통해 replace 발동시켜 해결함.<br/>
 
-### 생각했던 것들
+[개선]<br/>
+두 번의 이벤트 발생을 사용자에게 드러내는 것이 UX적인 면에서 좋지 않다고 느낌.<br/>
+useTransition + history.replaceState 활용
+
+### 배우거나 생각하게 된 것들
 캐싱에 대한 것.
 SSR로 서버에서 fetch한 데이터를 initailData로 useQuery에 넘길지.. fetch하고 queryKey를 기록할지.. tanstack-query의 preFetch를 사용할지..
-옵션이 많으니 고민이 늘어남. 다만 Next.js의 부족한 부분과 CSR로는 얻을 수 없는 이점을 함께 얻을 수 있다는 점을 알게되어 Next.js + tanstack-query 함께 사용했을 때의 효용성을 보게됨.
+옵션이 많으니 고민이 늘어남. <br/> 다만 Next.js의 부족한 부분과 CSR로는 얻을 수 없는 이점을 함께 얻을 수 있다는 점을 알게되어 Next.js + tanstack-query 함께 사용했을 때의 효용성을 보게됨.<br/>
+또한 tanstack-query의 캐싱 기능으로 propsDriling도 해소할 수 있다는 장점을 체감함.
