@@ -2,12 +2,21 @@
 
 import { loginFormAction } from "@/actions/user";
 import clsx from "clsx";
-import { useActionState } from "react";
+import { useActionState, useEffect } from "react";
+import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
+  const router = useRouter();
   const [state, formAction, isPending] = useActionState(loginFormAction, {
+    ok: false,
     error: undefined,
   });
+
+  useEffect(() => {
+    if (state.ok) {
+      router.replace("/");
+    }
+  }, [state, router]);
 
   return (
     <form
