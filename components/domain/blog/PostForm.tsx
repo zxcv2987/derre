@@ -5,12 +5,12 @@ import ImageFileInput from "@/components/common/ui/ImageFileInput";
 import DropDown from "@/components/common/ui/DropDown";
 import { CategoryType } from "@/types/category";
 import { BlogResponseType } from "@/types/response";
-import { startTransition, useEffect } from "react";
+import { useEffect, useTransition } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import clsx from "clsx";
 import PreventLeaveWrapper from "@/components/common/preventLeaveWrapper";
 import Modal from "@/components/common/modal/composition/ModalRoot";
-import { useRouter } from "next/navigation";
+import { redirect, RedirectType, useRouter } from "next/navigation";
 interface FormError {
   toast?: string;
   title?: string;
@@ -39,6 +39,7 @@ export default function PostForm({
   isPending = false,
   isAllowLeave = false,
 }: PostFormProps) {
+  const [isLoading, startTransition] = useTransition();
   const router = useRouter();
   useEffect(() => {
     if (error?.toast) {
@@ -50,16 +51,14 @@ export default function PostForm({
     if (isAllowLeave) {
       startTransition(() => {
         const currentPosition = window.history.state?.idx || 0;
-
         window.history.replaceState({ idx: currentPosition - 2 }, "", "/");
-
-        router.replace("/");
+        redirect("/", RedirectType.replace);
       });
     }
   }, [isAllowLeave, router]);
   return (
     <PreventLeaveWrapper isSuccess={isAllowLeave}>
-      <Modal.Root isOpen={isPending} onClose={() => {}}>
+      <Modal.Root isOpen={isPending || isLoading} onClose={() => {}}>
         <Modal.Content>
           <div className="w-full flex justify-center">로딩중...</div>
         </Modal.Content>

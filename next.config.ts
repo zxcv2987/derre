@@ -16,6 +16,7 @@ const nextConfig: NextConfig = {
         protocol: "https",
         hostname: process.env.NEXT_PUBLIC_STORAGE_HOSTNAME || "localhost",
         search: "",
+        pathname: "/**",
       },
     ],
   },
