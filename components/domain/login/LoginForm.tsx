@@ -2,7 +2,7 @@
 
 import { loginFormAction } from "@/actions/user";
 import clsx from "clsx";
-import { useActionState, useEffect } from "react";
+import { useActionState, useEffect, useTransition } from "react";
 import { useRouter } from "next/navigation";
 
 export default function LoginForm() {
@@ -11,10 +11,13 @@ export default function LoginForm() {
     ok: false,
     error: undefined,
   });
+  const [isLoading, startTransition] = useTransition();
 
   useEffect(() => {
     if (state.ok) {
-      router.replace("/");
+      startTransition(() => {
+        router.replace("/");
+      });
     }
   }, [state, router]);
 
@@ -47,8 +50,10 @@ export default function LoginForm() {
           )}
         </div>
       </div>
-      <button className={clsx("btn", isPending && "bg-zinc-200")}>
-        {isPending ? "로딩 중" : "로그인"}
+      <button
+        className={clsx("btn", (isPending || isLoading) && "bg-zinc-200")}
+      >
+        {isPending || isLoading ? "로딩 중" : "로그인"}
       </button>
     </form>
   );
